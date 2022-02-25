@@ -540,10 +540,12 @@ service squid3 restart
 service stunnel4 restart
 systemctl restart ocserv.service
 screen -dmS socks python /etc/socks.py 80
-exit 0" >> /etc/.services
-    sudo chmod +x /etc/.services
+exit 0" >> /etc/rc.local
+    sudo chmod +x /etc/rc.local
+    sudo systemctl enable rc-local
+    sudo systemctl start rc-local.service
     sudo chmod +x /etc/.ws
-    sudo crontab -l | { echo '@reboot bash /etc/.services'; echo '*/5 * * * * bash /etc/.ws';} | crontab - -u root
+    sudo crontab -l | {echo '*/5 * * * * bash /etc/.ws';} | crontab - -u root
   }&>/dev/null
 }
 
